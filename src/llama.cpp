@@ -5360,6 +5360,12 @@ static void llm_load_hparams(
     // get general kv
     ml.get_key(LLM_KV_GENERAL_NAME, model.name, false);
 
+    // Disable LLM metadata for image models
+    if (model.arch == LLM_ARCH_SDXL || model.arch == LLM_ARCH_SD1 || model.arch == LLM_ARCH_FLUX) {
+        model.ftype = ml.ftype;
+        return;
+    }
+
     // get hparams kv
     ml.get_key(LLM_KV_VOCAB_SIZE, hparams.n_vocab, false) || ml.get_arr_n(LLM_KV_TOKENIZER_LIST, hparams.n_vocab);
 
